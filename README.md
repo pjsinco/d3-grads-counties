@@ -17,4 +17,4 @@
 * Where to get maps with different kinds of boundaries, like counties, Medicare regions, zip codes, etc:
     [us-maps](https://github.com/jgoodall/us-maps)
 
-
+* github: [dlab-berkeley/geocoding-workshop](https://github.com/dlab-berkeley/geocoding-workshop)
