@@ -10,3 +10,11 @@
     * [bubble, map, detail sidebar, timeline: good!](http://conflictstudy.asiafoundation.org/)
     * [cs171 hw1 2015](https://github.com/CS171/2015-cs171-homework/tree/master/hw1)
     * [table, bar, lovely, great use of color, sortable rows, shows a good way to compare](http://www.nytimes.com/interactive/2012/09/14/us/how-the-chicago-public-school-district-compares.html)
+
+###Fri Apr 17 09:58:20 2015 CDT
+* Mike Bostock: [Let's make a bubble map](http://bost.ocks.org/mike/bubble-map/)
+
+* Where to get maps with different kinds of boundaries, like counties, Medicare regions, zip codes, etc:
+    [us-maps](https://github.com/jgoodall/us-maps)
+
+
