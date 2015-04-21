@@ -18,3 +18,6 @@
     [us-maps](https://github.com/jgoodall/us-maps)
 
 * github: [dlab-berkeley/geocoding-workshop](https://github.com/dlab-berkeley/geocoding-workshop)
+
+###Tue Apr 21 09:27:19 2015 CDT
+* CDC: [NCHS Urban-Rural Classification Scheme for Counties](http://www.cdc.gov/nchs/data_access/urban_rural.htm)
