@@ -13,6 +13,11 @@ where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
   and na.zip <> ''
 order by n.ID ASC
 
+
+
+
+
+
 --sketches
 select n.id, na.*
 from dbo_name n inner join dbo_name_address na

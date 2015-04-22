@@ -5,7 +5,8 @@ body {
 
 .vis {
   position: absolute;
-  max-width: 40.625em;
+  /*max-width: 40.625em;*/
+  max-width: 62em;
   margin: 0 auto;
   width: 100%;
   height: 100%;
@@ -13,28 +14,35 @@ body {
   /*background: aliceblue;*/
 }
 
-svg path {
+.land {
+  fill: #ddd;
+}
+
+.border {
   fill: none;
-  stroke: #000;
+  stroke: #fff;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 
-svg .state {
+.bubble {
+  fill: #000066;
+  fill-opacity: .5;
   stroke: #fff;
-  stroke-width: 1;
+  stroke-width: .5px;
 }
 
-svg .state:hover {
-  /*fill-opacity: 0.5;*/
+.bubble :hover {
+  stroke: #000;
 }
 
-svg .tick line {
-  stroke: #333;
-  stroke-width: 1;
+.legend circle {
+  fill: none;
+  stroke: #ccc;
 }
 
-.axis path {
-  display: none;
+.legend text {
+  fill: #777;
+  font: 10px sans-serif;
+  text-anchor: middle;
 }
-

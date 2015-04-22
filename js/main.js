@@ -8,8 +8,10 @@ var margin = {
 };
 
 
-var width = 655 - margin.left - margin.right,
-  height = 437 - margin.top - margin.bottom;
+//var width = 655 - margin.left - margin.right,
+  //height = 437 - margin.top - margin.bottom;
+var width = 1000 - margin.left - margin.right,
+  height = 600 - margin.top - margin.bottom;
 
 var svg = d3.select('.vis').append('svg')
   .attr('width', width + margin.left + margin.right)
@@ -19,7 +21,11 @@ var svg = d3.select('.vis').append('svg')
 var path = d3.geo.path()
   .projection(null);
 
-d3.json('build/counties.json', function(error, us) {
+var radius = d3.scale.sqrt()
+  .domain([0, 200])
+  .range([0, 15])
+
+d3.json('data/us-schools.json', function(error, us) {
 
   if (error) {
     return console.error(error);
@@ -27,8 +33,42 @@ d3.json('build/counties.json', function(error, us) {
 
   svg
     .append('path')
-    .datum(topojson.mesh(us))
+    .datum(topojson.feature(us, us.objects.nation))
+    .classed('land', true)
     .attr('d', path);
+
+  svg
+    .append('path')
+    .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+    .attr('class', 'border border--state')
+    .attr('d', path)
+
+  svg
+    .append('g')
+    .attr('class', 'bubble')
+    .selectAll('circle')
+    .data(topojson.feature(us, us.objects.counties).features)
+      .sort(function(a, b) { return b.properties.schools['118453'] - a.properties.schools['118453'] })
+    .enter()
+    .append('circle')
+    .attr('transform', function(d) {
+      return 'translate(' + path.centroid(d) + ')';
+    })
+    .attr('r', function(d) {
+      //return 2;
+      //return radius(d.properties.schools['118453']);
+      return radius(d.properties.schools['118453']);
+      //return radius(d.properties.population);
+    })
+
+  svg
+    .selectAll('circle')
+    .append('title')
+    .text(function(d) {
+      return d.properties.name + ': ' + d.properties.schools['118453'] + ' DOs from 118453 practicing.';
+    })
+
+    
 
 
 }); // d3.json
