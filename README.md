@@ -21,3 +21,5 @@
 
 ###Tue Apr 21 09:27:19 2015 CDT
 * CDC: [NCHS Urban-Rural Classification Scheme for Counties](http://www.cdc.gov/nchs/data_access/urban_rural.htm)
+
+* O'Reilly's [Python Cookbook](http://chimera.labs.oreilly.com/books/1230000000393)
