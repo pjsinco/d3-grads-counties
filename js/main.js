@@ -26,10 +26,12 @@ var radius = d3.scale.sqrt()
   .range([0, 15])
 
 d3.json('data/us-schools.json', function(error, us) {
-
   if (error) {
     return console.error(error);
   }
+
+
+  //console.log(getSchoolsList(us));
 
   svg
     .append('path')
@@ -57,7 +59,10 @@ d3.json('data/us-schools.json', function(error, us) {
     .attr('r', function(d) {
       //return 2;
       //return radius(d.properties.schools['118453']);
-      return radius(d.properties.schools['118453']);
+      if (!isNaN(d.properties.schools['118453']))
+        return radius(d.properties.schools['118453']);
+      else
+        return 0;
       //return radius(d.properties.population);
     })
 
@@ -107,3 +112,24 @@ function responsivefy(svg) {
       .attr('height', Math.round(targetWidth / aspect));
   }
 } // responsivefy
+
+
+/**
+ * Generate an array of all the schools
+ */
+function getSchoolsList(topojson) {
+  schools = [];
+  topojson.objects.counties.geometries.forEach(function(d) {
+    var keys = [];
+    for (var k in d.properties.schools) {
+      keys.push(k)
+    }
+
+    keys.forEach(function(d) {
+      if (schools.indexOf(d) < 0) {
+        schools.push(d);
+      }
+    })
+  });
+  return schools;
+}
