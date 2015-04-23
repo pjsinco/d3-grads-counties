@@ -1,0 +1,34 @@
+%s/"118439"/"ATSU-SOMA"/g
+%s/"118440"/"LMU-DCOM"/g
+%s/"118441"/"TouroCOM-Harlem"/g
+%s/"118442"/"MWU\/CCOM"/g
+%s/"118444"/"COPS"/g
+%s/"118445"/"DMU-COM"/g
+%s/"118446"/"KCUMB-COM"/g
+%s/"118447"/"ATSU-KCOM"/g
+%s/"118448"/"LECOM-Bradenton"/g
+%s/"118449"/"TUNCOM"/g
+%s/"118453"/"PCOM"/g
+%s/"118454"/"GA-PCOM"/g
+%s/"118457"/"MSUCOM"/g
+%s/"118458"/"UNTHSC\/TCOM"/g
+%s/"118459"/"WVSOM"/g
+%s/"118460"/"OSU-COM"/g
+%s/"118461"/"OU-HCOM"/g
+%s/"118462"/"RowanSOM"/g
+%s/"118463"/"NYITCOM"/g
+%s/"118464"/"WesternU\/COMP"/g
+%s/"118465"/"UNECOM"/g
+%s/"118466"/"NSU-COM"/g
+%s/"118467"/"LECOM"/g
+%s/"118468"/"MWU\/AZCOM"/g
+%s/"118469"/"TUCOM"/g
+%s/"118470"/"UP-KYCOM"/g
+%s/"155767"/"VCOM-Virginia Campus"/g
+%s/"182613"/"RVUCOM"/g
+%s/"182634"/"PNWU-COM"/g
+%s/"188393"/"WCUCOM"/g
+%s/"198802"/"MU-COM"/g
+%s/"198805"/"VCOM-Carolinas Campus"/g
+%s/"329224"/"CUSOM"/g
+%s/"348977"/"LUCOM"/g

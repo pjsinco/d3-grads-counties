@@ -18,20 +18,25 @@ var svg = d3.select('.vis').append('svg')
   .attr('height', height + margin.top + margin.bottom)
   .call(responsivefy);
 
+var p = document.querySelector('.vis');
+var selectElem = document.createElement('select')
+selectElem.setAttribute('id', 'school')
+p.appendChild(selectElem)
+
 var path = d3.geo.path()
   .projection(null);
 
 var radius = d3.scale.sqrt()
-  .domain([0, 200])
-  .range([0, 15])
+  .domain([0, 50])
+  .range([0, 25])
 
-d3.json('data/us-schools.json', function(error, us) {
-  if (error) {
+//d3.json('data/us-schools-with-abbrevs.json', function(error, us) {
+d3.json('data/us-schools.json', function(error, us) { if (error) {
     return console.error(error);
   }
 
 
-  //console.log(getSchoolsList(us));
+  console.log(getSchoolsList(us));
 
   svg
     .append('path')
@@ -50,7 +55,7 @@ d3.json('data/us-schools.json', function(error, us) {
     .attr('class', 'bubble')
     .selectAll('circle')
     .data(topojson.feature(us, us.objects.counties).features)
-      .sort(function(a, b) { return b.properties.schools['118453'] - a.properties.schools['118453'] })
+      .sort(function(a, b) { return b.properties.schools['WesternU/COMP'] - a.properties.schools['WesternU/COMP'] })
     .enter()
     .append('circle')
     .attr('transform', function(d) {
@@ -58,9 +63,9 @@ d3.json('data/us-schools.json', function(error, us) {
     })
     .attr('r', function(d) {
       //return 2;
-      //return radius(d.properties.schools['118453']);
-      if (!isNaN(d.properties.schools['118453']))
-        return radius(d.properties.schools['118453']);
+      //return radius(d.properties.schools['WesternU/COMP']);
+      if (!isNaN(d.properties.schools['WesternU/COMP']))
+        return radius(d.properties.schools['WesternU/COMP']);
       else
         return 0;
       //return radius(d.properties.population);
@@ -70,7 +75,7 @@ d3.json('data/us-schools.json', function(error, us) {
     .selectAll('circle')
     .append('title')
     .text(function(d) {
-      return d.properties.name + ': ' + d.properties.schools['118453'] + ' DOs from 118453 practicing.';
+      return d.properties.name + ': ' + d.properties.schools['WesternU/COMP'] + ' DOs from WesternU/COMP practicing.';
     })
 
     
