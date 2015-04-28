@@ -14,8 +14,17 @@ body {
   /*background: aliceblue;*/
 }
 
-.land {
+#states {
   fill: #ddd;
+}
+
+.background {
+  fill: none;
+  cursor-events: all;
+}
+
+.counties{
+  fill: fuchsia;
 }
 
 .border {
