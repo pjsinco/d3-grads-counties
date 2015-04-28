@@ -85,7 +85,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     .attr('class', 'bubble')
     .selectAll('circle')
     .data(topojson.feature(us, us.objects.counties).features)
-      .sort(function(a, b) { return b.properties.schools['WesternU/COMP'] - a.properties.schools['WesternU/COMP'] })
+      .sort(function(a, b) { return b.properties.schools['MWU/AZCOM'] - a.properties.schools['MWU/AZCOM'] })
     .enter()
     .append('circle')
     .attr('transform', function(d) {
@@ -93,9 +93,9 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     })
     .attr('r', function(d) {
       //return 2;
-      //return radius(d.properties.schools['WesternU/COMP']);
-      if (!isNaN(d.properties.schools['WesternU/COMP']))
-        return radius(d.properties.schools['WesternU/COMP']);
+      //return radius(d.properties.schools['MWU/AZCOM']);
+      if (!isNaN(d.properties.schools['MWU/AZCOM']))
+        return radius(d.properties.schools['MWU/AZCOM']);
       else
         return 0;
       //return radius(d.properties.population);
@@ -105,7 +105,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     .selectAll('circle')
     .append('title')
     .text(function(d) {
-      return d.properties.county + ': ' + d.properties.schools['WesternU/COMP'] + ' DOs from WesternU/COMP practicing.';
+      return d.properties.county + ': ' + d.properties.schools['MWU/AZCOM'] + ' DOs from MWU/AZCOM practicing.';
     })
 
 
@@ -168,6 +168,7 @@ function getSchoolsList(topojson) {
 }
 
 function clicked(d) {
+  console.log('clicked');
   var x, y, k;
 
   if (d && centered !== d) {
