@@ -66,7 +66,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   drawBubbles('UP-KYCOM');
 
   function drawBubbles(school) {
-    console.log('hiya, ' + school);
     var bubbles = g
       .selectAll('circle')
       .data(topojson.feature(us, us.objects.counties).features
@@ -107,7 +106,11 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   function changeSchool(evt) {
     school = evt.target.value;
     drawBubbles(school);
-
+    //gradCount();
+    highlightSchool(school);
+  }
+  
+  function gradCount() {
     // sanity check: count grads
     var gradCount = 0;
     us.objects.counties.geometries.forEach(function(d) {
@@ -117,10 +120,82 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     })
     console.log(gradCount);
   }
-  
-  
-}); // d3.json
 
+  function drawSchools() {
+    d3.csv('data/schools-lat-lon.csv', function(error, csv) {
+      var schools = g
+        .selectAll('schools')
+        .data(csv)
+      schools
+        .enter()
+        .append('circle')
+        .classed('schools', true)
+        .attr('r', 5)
+        .attr('cx', function(d) {
+          return projection([
+            Number.parseFloat(d.lon), 
+            Number.parseFloat(d.lat)
+          ])[0];
+        })
+        .attr('cy', function(d) {
+          return projection([
+            Number.parseFloat(d.lon), 
+            Number.parseFloat(d.lat)
+          ])[1];
+        })
+        //.style('fill', 'rgba(163, 64, 64, 0.45098)')
+        .style('fill', '#fff')
+    });
+  }
+
+  //drawSchools();
+  function highlightSchool(school) {
+    d3.csv('data/schools-lat-lon.csv', function(error, csv) {
+      //csv = csv.filter(function(d) {
+        //return d.abbrev == school
+      //})
+
+      var highlightedSchool = g
+        .selectAll('selected-school')
+        .data(csv)
+
+      highlightedSchool
+        .enter()
+        .append('circle')
+        .filter(function(d) { 
+          return d.abbrev == school
+        })
+        .style('fill', 'rgba(255, 0, 0, 0)')
+        .classed('selected-school', true)
+        .attr('r', function(d) {
+          console.log(d);
+          return 25;
+        })
+        .attr('cx', function(d) {
+          return projection([
+            Number.parseFloat(d.lon), 
+            Number.parseFloat(d.lat)
+          ])[0];
+        })
+        .attr('cy', function(d) {
+          return projection([
+            Number.parseFloat(d.lon), 
+            Number.parseFloat(d.lat)
+          ])[1];
+        })
+        .transition()
+        .duration(3000)
+        .style('fill', 'rgba(255, 0, 0, 0.4)')
+
+        highlightedSchool
+          .exit()
+          .transition()
+          .duration(3000)
+          .style('fill', 'rgba(255, 0, 0, 0)')
+          .remove()
+    });
+  }
+}); // d3.json
 
 
 /**
