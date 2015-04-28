@@ -4,9 +4,9 @@
 -- note: without d.prac_type = '40', we get ~41,000
 SELECT n.id, n.designation, n.member_type, na.address_1, na.city, na.state_province as state, na.zip, na.county, FORMAT(e.grad_date, 'yyyy') as grad_year, e.college_code as school, DateDiff("yyyy", b.DOB, Now())+ Int( Format(now(), "mmdd") < Format( b.DOB, "mmdd") ) as age, na.purpose
 FROM (((dbo_Name n INNER JOIN dbo_Biographical b
-  ON n.ID = b.ID) INNER JOIN dbo_Education e
-  ON n.ID = e.ID) INNER JOIN dbo_Demographics d
-  on n.ID = d.ID) INNER JOIN dbo_Name_Address na
+  ON n.ID = b.ID)  INNER JOIN dbo_Education e
+  ON n.ID = e.ID)  INNER JOIN dbo_Demographics d
+  on n.ID = d.ID)  INNER JOIN dbo_Name_Address na
   ON n.mail_address_num = na.address_num
 where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
   and n.status = 'A'
@@ -20,8 +20,42 @@ where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
   and d.prac_type = '40'
 order by n.ID ASC
 
+-- if we want to get residents:
+--   and d.prac_type in (15, 97)
 
 
+-- get school counties
+select distinct(n.id), e.college_name, na.city, na.state_province, na.county, na.purpose
+FROM (dbo_Name n inner JOIN dbo_Name_Address na 
+  on n.id = na.id) inner join dbo_Education e
+  on n.id = e.college_code
+where n.id in ('118439', '118440', '118441', '118442', '118444', '118445', '118446', '118447', '118448', '118449', '118453', '118454', '118457', '118458', '118459', '118460', '118461', '118462', '118463', '118464', '118465', '118466', '118467', '118468', '118469', '118470', '155767', '182613', '182634', '188393', '198802', '198805', '329224', '348977')
+  and n.status = 'A'
+  and na.purpose = 'Business'
+order by n.id
+
+select distinct(e.college_code), g.description
+FROM (dbo_Name n inner JOIN dbo_Education e 
+  on n.id = e.college_code) inner join dbo_Gen_Tables g
+  on e.college_code = g.code
+where n.id = '118439'
+
+
+SELECT n.id, n.designation, n.member_type, na.address_1, na.city, na.state_province as state, na.zip, na.county, FORMAT(e.grad_date, 'yyyy') as grad_year, e.college_code as school, DateDiff("yyyy", b.DOB, Now())+ Int( Format(now(), "mmdd") < Format( b.DOB, "mmdd") ) as age, na.purpose
+FROM (((dbo_Name n inner JOIN dbo_Biographical b
+  ON n.ID = b.ID)  inner JOIN dbo_Education e
+  ON n.ID = e.ID)  inner JOIN dbo_Demographics d
+  on n.ID = d.ID)  inner JOIN dbo_Name_Address na
+  ON n.mail_address_num = na.address_num
+where n.status = 'A'
+  and n.member_type in ('DO-M')
+  and e.college_code = '182613'
+  and d.prac_type = '40'
+  and d.prof_empl not like '9*'
+order by n.ID ASC
+
+  and e.college_code = '118441'
+  and d.prac_type = '40'
 
 
 select distinct(d.prac_type), g.description
@@ -108,3 +142,4 @@ from (dbo_name n
   inner join dbo_Gen_Tables g on n.id = g.code)
   inner join dbo_Education e on n.id = e.college_code
 where n.member_type = 'COL'
+

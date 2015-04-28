@@ -25,3 +25,15 @@
 * O'Reilly's [Python Cookbook](http://chimera.labs.oreilly.com/books/1230000000393)
 
 ###Thu Apr 23 17:57:57 2015 CDT
+
+* Schools we're running low on:
+    * RVU-COM: none
+    * TouroCOM-Harlem
+    * ATSU-SOMA
+    * PNWU-COM
+    * WCU-COM
+    * MU-COM
+    * VCOM-Carolinas
+    * CUSOM
+    * LUCOM
+
