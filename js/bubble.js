@@ -17,19 +17,6 @@ var svg = d3.select('.vis').append('svg')
   .attr('height', height + margin.top + margin.bottom)
   .call(responsivefy);
 
-var p = document.querySelector('.vis');
-var selectElem = document.createElement('select')
-selectElem.setAttribute('id', 'school')
-p.appendChild(selectElem)
-
-var swapButton = document.createElement('button')
-var swapButtonText = document.createTextNode('Swap')
-swapButton.setAttribute('id', 'swap-button')
-//swapButton.setAttribute('name', 'swap')
-//swapButton.setAttribute('value', 'swap')
-swapButton.appendChild(swapButtonText)
-p.appendChild(swapButton)
-
 var projection = d3.geo.albersUsa()
   .scale(1070)
   .translate([width / 2, height / 2])
@@ -54,15 +41,16 @@ svg
 
 var g = svg.append('g')
 
-d3.json("data/us-schools-zoom-ready.json", function(error, us) {
-  
-  swapButton.addEventListener('click', swapClick, false);
 
+d3.json("data/us-schools-zoom-ready.json", function(error, us) {
+
+  var schoolSelect = document.querySelector('#schools');
+
+  schoolSelect.addEventListener('change', changeSchool, false)
+  
   if (error) {
     return console.error(error);
   }
-
-  //console.log(getSchoolsList(us));
 
 
   g
@@ -118,10 +106,11 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 //      })
   } // end drawBubbles
 
-  function swapClick() {
-    console.log('swapclick');
-    drawBubbles('NSU-COM');
+  function changeSchool(evt) {
+    drawBubbles(evt.target.value);
   }
+  
+  
 }); // d3.json
 
 
