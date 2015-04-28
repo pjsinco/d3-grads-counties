@@ -22,6 +22,14 @@ var selectElem = document.createElement('select')
 selectElem.setAttribute('id', 'school')
 p.appendChild(selectElem)
 
+var swapButton = document.createElement('button')
+var swapButtonText = document.createTextNode('Swap')
+swapButton.setAttribute('id', 'swap-button')
+//swapButton.setAttribute('name', 'swap')
+//swapButton.setAttribute('value', 'swap')
+swapButton.appendChild(swapButtonText)
+p.appendChild(swapButton)
+
 var projection = d3.geo.albersUsa()
   .scale(1070)
   .translate([width / 2, height / 2])
@@ -47,6 +55,9 @@ svg
 var g = svg.append('g')
 
 d3.json("data/us-schools-zoom-ready.json", function(error, us) {
+  
+  swapButton.addEventListener('click', swapClick, false);
+
   if (error) {
     return console.error(error);
   }
@@ -66,38 +77,53 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     //.style('fill', '#ddd')
     .on('click', clicked)
   
-  drawBubbles();
+  drawBubbles('UP-KYCOM');
 
-  function drawBubbles() {
+  function drawBubbles(school) {
+    console.log('hiya, ' + school);
     var bubbles = g
       .selectAll('circle')
       .data(topojson.feature(us, us.objects.counties).features
-        .sort(function(a, b) { return b.properties.schools['UNECOM'] - a.properties.schools['UNECOM'] }))
+        .sort(function(a, b) { return b.properties.schools[school] - a.properties.schools[school] }))
+
+
+    bubbles
       .enter()
       .append('circle')
+
+    bubbles
+      .transition()
+      .duration(3000)
       .attr('class', 'bubble')
       .attr('transform', function(d) {
         return 'translate(' + path.centroid(d) + ')';
       })
       .attr('r', function(d) {
-        //return 2;
-        //return radius(d.properties.schools['UNECOM']);
-        if (!isNaN(d.properties.schools['UNECOM']))
-          return radius(d.properties.schools['UNECOM']);
-        else
+        if (!isNaN(d.properties.schools[school])) {
+          return radius(d.properties.schools[school]);
+        } else {
           return 0;
-        //return radius(d.properties.population);
+        }
       })
 
     bubbles
-      .append('title')
-      .text(function(d) {
-        return d.properties.county + ': ' + d.properties.schools['UNECOM'] + ' DOs from UNECOM practicing.';
-      })
+      .exit()
+      .remove()
+
+//    bubbles
+//      .append('title')
+//      .text(function(d) {
+//        return d.properties.county + ': ' + d.properties.schools[school] + 
+//          ' DOs from ' + school + ' practicing.';
+//      })
   } // end drawBubbles
 
-
+  function swapClick() {
+    console.log('swapclick');
+    drawBubbles('NSU-COM');
+  }
 }); // d3.json
+
 
 
 /**
