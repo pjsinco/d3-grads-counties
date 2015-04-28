@@ -45,13 +45,11 @@ var g = svg.append('g')
 d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 
   var schoolSelect = document.querySelector('#schools');
-
   schoolSelect.addEventListener('change', changeSchool, false)
   
   if (error) {
     return console.error(error);
   }
-
 
   g
     .classed('states', true)
@@ -107,7 +105,17 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   } // end drawBubbles
 
   function changeSchool(evt) {
-    drawBubbles(evt.target.value);
+    school = evt.target.value;
+    drawBubbles(school);
+
+    // sanity check: count grads
+    var gradCount = 0;
+    us.objects.counties.geometries.forEach(function(d) {
+      if (!isNaN(d.properties.schools[school])) {
+        gradCount += Number.parseInt(d.properties.schools[school]);
+      }
+    })
+    console.log(gradCount);
   }
   
   
@@ -148,6 +156,7 @@ function responsivefy(svg) {
       .attr('height', Math.round(targetWidth / aspect));
   }
 } // responsivefy
+
 
 /**
  * Generate an array of all the schools
