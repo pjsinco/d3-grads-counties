@@ -60,10 +60,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     .enter()
     .append('path')
     .attr('d', path)
-    .attr('class', function(d) {
-      //console.log(d.properties.schools['NSU-COM'], quantize(d.properties.schools['NSU-COM']));
-      return quantize(d.properties.schools['NSU-COM'])
-    })
     .style('stroke', '#d0d0d0')
 
 
@@ -72,15 +68,17 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
     .attr('class', 'border border--state')
     .attr('d', path)
+  
+  drawBubbles();
 
   function drawBubbles() {
     var bubbles = svg
       .selectAll('circle')
-      .attr('class', 'bubble')
-      .data(topojson.feature(us, us.objects.counties).features)
-        .sort(function(a, b) { return b.properties.schools['NSU-COM'] - a.properties.schools['NSU-COM'] })
+      .data(topojson.feature(us, us.objects.counties).features
+        .sort(function(a, b) { return b.properties.schools['NSU-COM'] - a.properties.schools['NSU-COM'] }))
       .enter()
       .append('circle')
+      .attr('class', 'bubble')
       .attr('transform', function(d) {
         return 'translate(' + path.centroid(d) + ')';
       })
