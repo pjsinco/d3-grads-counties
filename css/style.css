@@ -20,7 +20,7 @@ body {
 
 .background {
   fill: none;
-  cursor-events: all;
+  pointer-events: all;
 }
 
 .counties{
