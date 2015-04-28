@@ -6,7 +6,6 @@ var margin = {
   right: 20
 };
 
-
 //var width = 655 - margin.left - margin.right,
   //height = 437 - margin.top - margin.bottom;
 var width = 992 - margin.left - margin.right,
@@ -73,7 +72,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     var bubbles = g
       .selectAll('circle')
       .data(topojson.feature(us, us.objects.counties).features
-        .sort(function(a, b) { return b.properties.schools['NSU-COM'] - a.properties.schools['NSU-COM'] }))
+        .sort(function(a, b) { return b.properties.schools['UNECOM'] - a.properties.schools['UNECOM'] }))
       .enter()
       .append('circle')
       .attr('class', 'bubble')
@@ -82,9 +81,9 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
       })
       .attr('r', function(d) {
         //return 2;
-        //return radius(d.properties.schools['NSU-COM']);
-        if (!isNaN(d.properties.schools['NSU-COM']))
-          return radius(d.properties.schools['NSU-COM']);
+        //return radius(d.properties.schools['UNECOM']);
+        if (!isNaN(d.properties.schools['UNECOM']))
+          return radius(d.properties.schools['UNECOM']);
         else
           return 0;
         //return radius(d.properties.population);
@@ -93,7 +92,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     bubbles
       .append('title')
       .text(function(d) {
-        return d.properties.county + ': ' + d.properties.schools['NSU-COM'] + ' DOs from NSU-COM practicing.';
+        return d.properties.county + ': ' + d.properties.schools['UNECOM'] + ' DOs from UNECOM practicing.';
       })
   } // end drawBubbles
 
@@ -134,7 +133,6 @@ function responsivefy(svg) {
       .attr('height', Math.round(targetWidth / aspect));
   }
 } // responsivefy
-
 
 /**
  * Generate an array of all the schools
