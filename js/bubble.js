@@ -45,34 +45,32 @@ svg
   .attr('height', height)
   .on('click', clicked)
 
+var g = svg.append('g')
 
 d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   if (error) {
     return console.error(error);
   }
 
-  console.log(getSchoolsList(us));
+  //console.log(getSchoolsList(us));
 
-  var counties = svg.append('g')
-    .classed('counties', true)
+
+  g
+    .classed('states', true)
     .selectAll('path')
-    .data(topojson.feature(us, us.objects.counties).features)
+    .data(topojson.feature(us, us.objects.states).features)
     .enter()
     .append('path')
     .attr('d', path)
-    .style('stroke', '#d0d0d0')
-
-
-  var land = svg
-    .append('path')
-    .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-    .attr('class', 'border border--state')
-    .attr('d', path)
+    .style('stroke', '#fff')
+    .attr('class', 'state')
+    //.style('fill', '#ddd')
+    .on('click', clicked)
   
   drawBubbles();
 
   function drawBubbles() {
-    var bubbles = svg
+    var bubbles = g
       .selectAll('circle')
       .data(topojson.feature(us, us.objects.counties).features
         .sort(function(a, b) { return b.properties.schools['NSU-COM'] - a.properties.schools['NSU-COM'] }))

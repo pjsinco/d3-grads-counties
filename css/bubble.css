@@ -18,6 +18,14 @@ body {
   fill: #ddd;
 }
 
+.state {
+  fill: #ddd;
+}
+
+.active {
+  fill: orange;
+}
+
 .background {
   fill: none;
   pointer-events: all;
