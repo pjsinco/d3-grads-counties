@@ -1,4 +1,3 @@
-console.log('hiya');
 var margin = { 
   //top: 20,
   top: 0,
@@ -10,8 +9,9 @@ var margin = {
 
 //var width = 655 - margin.left - margin.right,
   //height = 437 - margin.top - margin.bottom;
-var width = 1000 - margin.left - margin.right,
-  height = 600 - margin.top - margin.bottom;
+var width = 992 - margin.left - margin.right,
+  height = 661 - margin.top - margin.bottom,
+  centered;
 
 var svg = d3.select('.vis').append('svg')
   .attr('width', width + margin.left + margin.right)
@@ -23,34 +23,64 @@ var selectElem = document.createElement('select')
 selectElem.setAttribute('id', 'school')
 p.appendChild(selectElem)
 
+var projection = d3.geo.albersUsa()
+  .scale(1070)
+  .translate([width / 2, height / 2])
+
 var path = d3.geo.path()
-  .projection(null);
+  .projection(projection);
 
 var radius = d3.scale.sqrt()
-  .domain([0, 50])
+  .domain([0, 150])
   .range([0, 25])
 
-//d3.json('data/us-schools-with-abbrevs.json', function(error, us) {
-d3.json('data/us-schools.json', function(error, us) { if (error) {
+svg
+  .append('rect')
+  .classed('background', true)
+  .attr('width', width)
+  .attr('height', height)
+  .on('click', clicked)
+
+var g = svg.append('g');
+
+d3.json("data/us-schools-zoom-ready.json", function(error, us) {
+
+  if (error) {
     return console.error(error);
   }
 
-
   console.log(getSchoolsList(us));
 
-  svg
+  g
+    .append('g')
+    .attr('id', 'states')
+    .selectAll('path')
+    .data(topojson.feature(us, us.objects.states).features)
+    .enter()
     .append('path')
-    .datum(topojson.feature(us, us.objects.nation))
-    .classed('land', true)
-    .attr('d', path);
+    .attr('d', path)
 
-  svg
+  
+
+//  svg
+//    .append('path')
+//    .datum(topojson.feature(us, us.objects.nation))
+//    .classed('land', true)
+//    .attr('d', path);
+//
+  g
     .append('path')
     .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
     .attr('class', 'border border--state')
     .attr('d', path)
 
-  svg
+//  g
+//    .append('path')
+//    .datum(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b; }))
+//    .attr('class', 'border')
+//    .attr('d', path)
+
+  g
     .append('g')
     .attr('class', 'bubble')
     .selectAll('circle')
@@ -71,14 +101,12 @@ d3.json('data/us-schools.json', function(error, us) { if (error) {
       //return radius(d.properties.population);
     })
 
-  svg
+  g
     .selectAll('circle')
     .append('title')
     .text(function(d) {
-      return d.properties.name + ': ' + d.properties.schools['WesternU/COMP'] + ' DOs from WesternU/COMP practicing.';
+      return d.properties.county + ': ' + d.properties.schools['WesternU/COMP'] + ' DOs from WesternU/COMP practicing.';
     })
-
-    
 
 
 }); // d3.json
@@ -137,4 +165,29 @@ function getSchoolsList(topojson) {
     })
   });
   return schools;
+}
+
+function clicked(d) {
+  var x, y, k;
+
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 4;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
 }
