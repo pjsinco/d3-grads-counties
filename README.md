@@ -37,3 +37,7 @@
     * LUCOM
 
 * Bostock: [General Update Pattern, I](http://bl.ocks.org/mbostock/3808218)
+
+###Wed Apr 29 16:13:50 2015 CDT
+* Google: [Debugging javascript in chrome](https://developer.chrome.com/devtools/docs/javascript-debugging)
+* Bostock: [D3 workshop slide](http://bost.ocks.org/mike/d3/workshop/#20)

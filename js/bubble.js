@@ -1,25 +1,52 @@
 var margin = { 
-  //top: 20,
   top: 0,
+  bottom: 20,
+  left: 0,
+  right: 10
+};
+
+var margin2 = {
+  top: 400,
   bottom: 20,
   left: 0,
   right: 20
 };
 
-//var width = 655 - margin.left - margin.right,
-  //height = 437 - margin.top - margin.bottom;
-var width = 992 - margin.left - margin.right,
-  height = 661 - margin.top - margin.bottom,
-  centered;
+var width = 655 - margin.left - margin.right,
+  height = 437 - margin.top - margin.bottom,
+  width2 = 655 - margin2.left - margin2.right,
+  height2 = 200 - margin2.top - margin2.bottom;
+
+var centered;
 
 var svg = d3.select('.vis').append('svg')
   .attr('width', width + margin.left + margin.right)
   .attr('height', height + margin.top + margin.bottom)
-  .call(responsivefy);
+
+var xScale = d3.time.scale()
+  .domain([new Date, new Date])
+  .nice(d3.time.year, 1950)
+  .range([30, width])
+
+
+
+//var context = svg.append('g')
+  //.classed('country', true)
+  //.attr('transform', 'translate(' +
+    //margin.left + ',' + margin.top + ')')
+
+var focus = svg.append('g')
+  .classed('focus', true)
+  .attr('width', width2 + margin2.left + margin2.right)
+  .attr('height', height2 + margin2.top + margin2.bottom)
+  .attr('transform', 'translate(' +
+    margin2.left + ',' + margin2.top + ')')
+
+var defaultMapScale = 850;
 
 var projection = d3.geo.albersUsa()
-  .scale(1070)
   .translate([width / 2, height / 2])
+  .scale([defaultMapScale])
 
 var path = d3.geo.path()
   .projection(projection);
@@ -35,9 +62,9 @@ var quantize = d3.scale.quantize()
 svg
   .append('rect')
   .classed('background', true)
-  .attr('width', width)
-  .attr('height', height)
-  .on('click', clicked)
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .call(responsivefy);
 
 var g = svg.append('g')
 
@@ -108,7 +135,56 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     drawBubbles(school);
     //gradCount();
     highlightSchool(school);
+    writeSchoolInfo(school);
   }
+
+  function writeSchoolInfo(schoolName) {
+    d3.json('data/grad-years.json', function(json) {
+      var school = json[schoolName];
+
+      var years = []
+
+      for (var prop in school) {
+        var year = {}
+        if (school.hasOwnProperty(prop)) {
+          year[prop] = school[prop];
+        }
+        years.push(year)
+      }
+
+      //console.log(years);
+
+      var focus = d3.select('.focus')
+      focus.select('text').remove()
+
+      focus
+        .append('text')
+        .text(schoolName)
+
+      var bars = focus
+        .selectAll('.bar')
+        //.data([17, 18, 19, 20])
+        .data(years)
+
+      bars
+        .enter()
+        .append('rect')
+        .classed('bar', true)
+        .attr('x', function(d, i) {
+          var date = new Date;
+          //console.log(xScale(date.setYear(i)))
+          return xScale(date.setYear(i))
+        })
+        .attr('y', function(d) {
+          //console.log(d);
+        })
+        .attr('width', 1)
+        .attr('height', 25)
+        .style('fill', 'orange')
+    
+
+    }) // d3.json
+  } // drawSchoolInfo
   
   function gradCount() {
     // sanity check: count grads
@@ -166,14 +242,15 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
           return d.abbrev == school
         })
         .style('fill', 'none')
-        .style('stroke', 'rgba(255, 0, 0, 0)')
+        //.style('stroke', 'rgba(255, 0, 0, 0)')
+        .style('stroke', 'rgba(255, 116, 0, 0)')
         .style('stroke-width', '2')
         .style('stroke-linejoin', 'round')
         .style('stroke-linecap', 'round')
         .style('stroke-dasharray', '2px,4px')
         .classed('selected-school', true)
         .attr('r', function(d) {
-          console.log(d);
+          //console.log(d);
           return 25;
         })
         .attr('cx', function(d) {
@@ -190,7 +267,8 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         })
         .transition()
         .duration(3000)
-        .style('stroke', 'rgba(255, 0, 0, 0.7)')
+        .style('stroke', 'rgba(255,116,0,.8)')
+        //.style('stroke', 'rgba(255,0,0,0.7)')
 
         highlightedSchool
           .exit()
