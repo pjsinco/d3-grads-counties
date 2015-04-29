@@ -23,7 +23,7 @@ body {
 }
 
 .active {
-  fill: orange;
+  fill: rgb(178,178,178);
 }
 
 .background {
