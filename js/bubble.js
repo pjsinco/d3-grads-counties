@@ -28,8 +28,15 @@ var xScale = d3.time.scale()
   .nice(d3.time.year, 1950)
   .range([30, width])
 
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .html(function(d) { return d; })
+  .direction('e')
 
-
+svg
+  .call(tip)
+ 
+  
 //var context = svg.append('g')
   //.classed('country', true)
   //.attr('transform', 'translate(' +
@@ -117,6 +124,10 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
           return 0;
         }
       })
+
+    bubbles
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
 
     bubbles
       .exit()
@@ -337,7 +348,6 @@ function getSchoolsList(topojson) {
 }
 
 function clicked(d) {
-  console.log('clicked');
   var x, y, k;
 
   if (d && centered !== d) {
