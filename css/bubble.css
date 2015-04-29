@@ -49,9 +49,9 @@ body {
   stroke-width: .5px;
 }
 
-.bubble:hover {
-  stroke: #000;
-}
+/*.bubble:hover {*/
+  /*stroke: #000;*/
+/*}*/
 
 /*.legend circle {*/
   /*fill: none;*/
