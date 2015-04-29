@@ -42,3 +42,4 @@
 * Google: [Debugging javascript in chrome](https://developer.chrome.com/devtools/docs/javascript-debugging)
 * Bostock: [D3 workshop slide](http://bost.ocks.org/mike/d3/workshop/#20)
 * Github: [D3.tooltip docs](https://github.com/Caged/d3-tip/tree/master/docs)
+* Bostock: [Let’s Make a Bar Chart, II](http://bost.ocks.org/mike/bar/2/)
