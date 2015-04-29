@@ -107,7 +107,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     school = evt.target.value;
     drawBubbles(school);
     //gradCount();
-    //highlightSchool(school);
+    highlightSchool(school);
   }
   
   function gradCount() {
@@ -165,7 +165,12 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         .filter(function(d) { 
           return d.abbrev == school
         })
-        .style('fill', 'rgba(255, 0, 0, 0)')
+        .style('fill', 'none')
+        .style('stroke', 'rgba(255, 0, 0, 0)')
+        .style('stroke-width', '2')
+        .style('stroke-linejoin', 'round')
+        .style('stroke-linecap', 'round')
+        .style('stroke-dasharray', '2px,4px')
         .classed('selected-school', true)
         .attr('r', function(d) {
           console.log(d);
@@ -185,7 +190,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         })
         .transition()
         .duration(3000)
-        .style('fill', 'rgba(255, 0, 0, 0.4)')
+        .style('stroke', 'rgba(255, 0, 0, 0.7)')
 
         highlightedSchool
           .exit()
