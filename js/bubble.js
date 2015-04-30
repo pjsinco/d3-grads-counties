@@ -100,11 +100,16 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   drawBubbles('UP-KYCOM');
 
   function drawBubbles(school) {
+    var c = 0;
     var bubbles = g
       .selectAll('circle')
       .data(topojson.feature(us, us.objects.counties).features
-        .sort(function(a, b) { return b.properties.schools[school] - a.properties.schools[school] }))
-
+        .sort(function(a, b) { 
+          schoolCountA = (a.properties.schools[school] == undefined ? 0 : a.properties.schools[school]);
+          schoolCountB = (b.properties.schools[school] == undefined ? 0 : b.properties.schools[school]);
+          return schoolCountB - schoolCountA;
+        })
+      )
 
     bubbles
       .enter()
