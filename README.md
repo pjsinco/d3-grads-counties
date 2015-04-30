@@ -43,3 +43,8 @@
 * Bostock: [D3 workshop slide](http://bost.ocks.org/mike/d3/workshop/#20)
 * Github: [D3.tooltip docs](https://github.com/Caged/d3-tip/tree/master/docs)
 * Bostock: [Let’s Make a Bar Chart, II](http://bost.ocks.org/mike/bar/2/)
+
+
+###Thu Apr 30 18:34:47 2015 CDT
+* this version was still responsive:
+  0f3f9e752b06e706aa699523208126fc1e00992d
