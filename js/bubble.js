@@ -30,7 +30,6 @@ var xScale = d3.time.scale()
 
 var tip = d3.tip()
   .attr('class', 'd3-tip')
-  .html(function(d) { return d; })
   .direction('e')
 
 svg
@@ -130,6 +129,15 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         }
       })
 
+    tip.html(function(d) { 
+      var count = d.properties.schools[school];
+      return '<p class="d3-tooltip__kicker">' + d.properties.state + '</p>' +
+        '<p class="d3-tooltip__title">' + d.properties.county + 
+        '<span class="d3-tooltip__figure">' + count + '</span>' + 
+        //' DO' + (count > 1 ? 's' : '') + 
+        '</p>';
+      })
+    
     bubbles
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
