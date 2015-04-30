@@ -22,6 +22,7 @@ var centered;
 var svg = d3.select('.vis').append('svg')
   .attr('width', width + margin.left + margin.right)
   .attr('height', height + margin.top + margin.bottom)
+  .call(responsivefy);
 
 var xScale = d3.time.scale()
   .domain([new Date, new Date])
@@ -131,12 +132,14 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 
     tip.html(function(d) { 
       var count = d.properties.schools[school];
-      return '<p class="d3-tooltip__kicker">' + d.properties.state + '</p>' +
-        '<p class="d3-tooltip__title">' + d.properties.county + 
-        '<span class="d3-tooltip__figure">' + count + '</span>' + 
-        //' DO' + (count > 1 ? 's' : '') + 
-        '</p>';
-      })
+      if (count != undefined) {
+        return '<p class="d3-tooltip__kicker">' + d.properties.state + '</p>' +
+          '<p class="d3-tooltip__title">' + d.properties.county + 
+          '<span class="d3-tooltip__figure">' + count + '</span>' + 
+          //' DO' + (count > 1 ? 's' : '') + 
+          '</p>';
+      }
+    })
     
     bubbles
       .on('mouseover', tip.show)
