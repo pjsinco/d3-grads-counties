@@ -6,14 +6,14 @@ var margin = {
 };
 
 var margin2 = {
-  top: 400,
+  top: 500,
   bottom: 20,
   left: 0,
   right: 20
 };
 
 var width = 655 - margin.left - margin.right,
-  height = 437 - margin.top - margin.bottom,
+  height = 537 - margin.top - margin.bottom,
   width2 = 655 - margin2.left - margin2.right,
   height2 = 200 - margin2.top - margin2.bottom;
 
@@ -35,13 +35,7 @@ var tip = d3.tip()
 
 svg
   .call(tip)
- 
   
-//var context = svg.append('g')
-  //.classed('country', true)
-  //.attr('transform', 'translate(' +
-    //margin.left + ',' + margin.top + ')')
-
 var focus = svg.append('g')
   .classed('focus', true)
   .attr('width', width2 + margin2.left + margin2.right)
@@ -74,7 +68,6 @@ svg
   .call(responsivefy);
 
 var g = svg.append('g')
-
 
 d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 
@@ -115,26 +108,34 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   function drawBubbles(school) {
     var c = 0;
     var bubbles = g
-      .selectAll('circle')
+      .selectAll('.bubble')
       .data(topojson.feature(us, us.objects.counties).features
+        .filter(function(d) {
+          return d.properties.schools[school] != undefined;
+        })
         .sort(function(a, b) { 
           schoolCountA = (a.properties.schools[school] == undefined ? 0 : a.properties.schools[school]);
           schoolCountB = (b.properties.schools[school] == undefined ? 0 : b.properties.schools[school]);
           return schoolCountB - schoolCountA;
-        })
+        }), function(d) {
+          return d.id;
+        }
       )
+
+    var countUndef = 0;
 
     bubbles
       .enter()
       .append('circle')
-
-    bubbles
-      .transition()
-      .duration(3000)
       .attr('class', 'bubble')
       .attr('transform', function(d) {
         return 'translate(' + path.centroid(d) + ')';
       })
+      .attr('r', 0)
+
+    bubbles
+      .transition()
+      .duration(3000)
       .attr('r', function(d) {
         if (!isNaN(d.properties.schools[school])) {
           return radius(d.properties.schools[school]);
@@ -161,6 +162,9 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 
     bubbles
       .exit()
+      .transition()
+      .duration(3000)
+      .attr('r', 0)
       .remove()
 
 //    bubbles
@@ -174,7 +178,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   function changeSchool(evt) {
     school = evt.target.value;
     drawBubbles(school);
-    gradCount();
+    //gradCount();
     highlightSchool(school);
     writeSchoolInfo(school);
   }
@@ -235,7 +239,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         gradCount += Number.parseInt(d.properties.schools[school]);
       }
     })
-    console.log(gradCount);
   }
 
   function drawSchools() {
@@ -268,12 +271,9 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
   //drawSchools();
   function highlightSchool(school) {
     d3.csv('data/schools-lat-lon.csv', function(error, csv) {
-      //csv = csv.filter(function(d) {
-        //return d.abbrev == school
-      //})
 
       var highlightedSchool = g
-        .selectAll('selected-school')
+        .selectAll('.selected-school')
         .data(csv)
 
       var schoolGroup = highlightedSchool
@@ -283,20 +283,15 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
       schoolGroup
         .append('circle')
         .filter(function(d) { 
-          return d.abbrev == school
+          return d.abbrev == school;
         })
         .style('fill', 'none')
-        //.style('stroke', 'rgba(255, 0, 0, 0)')
-        //.style('stroke', 'rgba(255, 116, 0, 0)')
         .style('stroke', d3.rgb('#ef3f23'))
         .style('stroke-width', '1')
         .style('opacity', '0')
-        //.style('stroke-linejoin', 'round')
-        //.style('stroke-linecap', 'round')
         .style('stroke-dasharray', '4px,2px')
         .classed('selected-school', true)
         .attr('r', function(d) {
-          //console.log(d);
           return 25;
         })
         .attr('cx', function(d) {
@@ -314,8 +309,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         .transition()
         .duration(3000)
         .style('opacity', '1')
-        //.style('stroke', 'rgba(255,116,0,.8)')
-        //.style('stroke', 'rgba(255,0,0,0.7)')
 
         schoolGroup
           .filter(function(d) { 
@@ -341,8 +334,8 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         schoolGroup
           .exit()
           .transition()
-          .duration(3000)
-          .style('fill', 'rgba(255, 0, 0, 0)')
+          .duration(1000)
+          .style('fill', 'rgba(255,0,0,0)')
           .remove()
     });
   }
