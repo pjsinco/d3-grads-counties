@@ -48,3 +48,4 @@
 ###Thu Apr 30 18:34:47 2015 CDT
 * this version was still responsive:
   0f3f9e752b06e706aa699523208126fc1e00992d
+* CSS Tricks: [Collision detection](https://css-tricks.com/collision-detection/)
