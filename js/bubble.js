@@ -157,6 +157,7 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     bubbles
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
+      .on('click', clicked)
 
     bubbles
       .exit()
@@ -404,6 +405,7 @@ function getSchoolsList(topojson) {
 }
 
 function clicked(d) {
+  tip.hide();
   var x, y, k;
 
   if (d && centered !== d) {
