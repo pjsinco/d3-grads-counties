@@ -16,12 +16,16 @@ var focus = {
   }
 };
 
-var visWidth = 655,visHeight = 537;
+var visWidth = 655, visHeight = 537;
 
 var contextWidth = visWidth - context.margin.left - context.margin.right,
   contextHeight = visHeight - context.margin.top - context.margin.bottom,
   focusWidth = visWidth - focus.margin.left - focus.margin.right,
   focusHeight = visHeight - focus.margin.top - focus.margin.bottom;
+
+console.log('focusHeight: ' + focusHeight, focusHeight / 2);
+console.log('visHeight: ' + visHeight, visHeight / 2);
+console.log('contextHeight: ' + contextHeight, contextHeight / 2);
 
 var centered;
 
@@ -453,7 +457,7 @@ function clicked(d) {
 
   context.transition()
       .duration(750)
-      .attr("transform", "translate(" + contextWidth / 2 + "," + contextHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .attr("transform", "translate(" + contextWidth / 2 + "," + (visHeight + 80)/ 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 }
 
