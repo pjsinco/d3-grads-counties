@@ -7,7 +7,6 @@ var context = {
   }
 };
 
-
 var focus = {
   margin: {
     top: 20,
@@ -17,8 +16,7 @@ var focus = {
   }
 };
 
-var visWidth = 655;
-var visHeight = 537;
+var visWidth = 655,visHeight = 537;
 
 var contextWidth = visWidth - context.margin.left - context.margin.right,
   contextHeight = visHeight - context.margin.top - context.margin.bottom,
@@ -54,7 +52,6 @@ var focus = svg.append('g')
   .attr('transform', 'translate(' +
     focus.margin.left + ',' + focus.margin.top + ')')
 
-
 var defaultMapScale = 850;
 
 var projection = d3.geo.albersUsa()
@@ -72,28 +69,19 @@ var quantize = d3.scale.quantize()
   .domain([0, 10])
   .range(d3.range(9).map(function(i) { return 'q' + i + '-9'; }))
 
-//svg
-//  .append('rect')
-//  .classed('background', true)
-//  .attr('width', width + margin.left + margin.right)
-//  .attr('height', height + margin.top + margin.bottom)
-//  .call(responsivefy);
+d3.json("data/us-schools.json", function(error, us) {
 
+    // add a count of all members to each county
+    //us.objects.counties.geometries.forEach(function(d, i) {
+    //  var count = 0;
+    //  for (var prop in d.properties.schools) {
+    //    count += +d.properties.schools[prop];
+    //  }
+    //  d['total_mems'] = count;
+    //})
 
-d3.json("data/us-schools-zoom-ready.json", function(error, us) {
     d3.csv('data/schools-lat-lon.csv', function(error, csv) {
 
-//    var grads = 0;
-//    topojson.feature(us, us.objects.counties).features.forEach(function(d) {
-//        var count = 0 
-//        for (var prop in d.properties.schools) {
-//          if (d.properties.schools.hasOwnProperty(prop)) {
-//            count += +d.properties.schools[prop];
-//          }
-//        }
-//        grads += count;
-//    })
-//    console.log(grads);
 
     var schoolSelect = document.querySelector('#schools');
     schoolSelect.addEventListener('change', changeSchool, false)
@@ -110,7 +98,8 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
       //.style('fill', '#ddd')
       .on('click', clicked)
     
-    drawBubbles('UP-KYCOM');
+
+    drawAllBubbles();
     drawLegend();
 
     var bullseye = context.append('g')
@@ -135,6 +124,56 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         .attr('y', function(d) {  return -2 * radius(d) })
         .attr('dy', '1.3em')
         .text(function(d) { return d; })
+    }
+
+
+    function drawAllBubbles() {
+      var bubbles = context
+        .selectAll('.bubble')
+        .data(topojson.feature(us, us.objects.counties).features
+          .sort(function(a, b) { 
+            return b.properties['mem_count'] - a.properties['mem_count'];
+          }), function(d) {
+            return d.id;
+          }
+        )
+
+      bubbles
+        .enter()
+        .append('circle')
+        .classed('bubble', true)
+        .attr('transform', function(d) {
+          return 'translate(' + path.centroid(d) + ')';
+        })
+        .attr('r', 0)
+
+      bubbles
+        .transition()
+        .duration(3000)
+        .attr('r', function(d) {
+          var count = 0;
+          for (var prop in d.properties.schools) {
+            count += +d.properties.schools[prop];
+          }
+          //console.log(d.properties.county, count);
+          return radius(count);
+        })
+        
+
+    } // end drawAllBubbles
+
+    function sanityCountGrads() {
+      var grads = 0;
+      topojson.feature(us, us.objects.counties).features.forEach(function(d) {
+          var count = 0 
+          for (var prop in d.properties.schools) {
+            if (d.properties.schools.hasOwnProperty(prop)) {
+              count += +d.properties.schools[prop];
+            }
+          }
+          grads += count;
+      })
+      console.log(grads);
     }
 
     function drawBubbles(school) {
@@ -198,13 +237,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         .duration(3000)
         .attr('r', 0)
         .remove()
-
-//      bubbles
-//        .append('title')
-//        .text(function(d) {
-//          return d.properties.county + ': ' + d.properties.schools[school] + 
-//            ' DOs from ' + school + ' practicing.';
-//        })
     } // end drawBubbles
 
     function changeSchool(evt) {
@@ -302,7 +334,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
 
     //drawSchools();
     function drawBullseye(school) {
-
       var target = bullseye 
         .selectAll('.bullseye')
         .data(csv.filter(function (d) {
@@ -339,7 +370,6 @@ d3.json("data/us-schools-zoom-ready.json", function(error, us) {
         .duration(3000)
         .attr('r', 0)
         .remove()
-
     } // end drawBulleye
 
   }); // d3.csv
