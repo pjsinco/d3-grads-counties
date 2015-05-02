@@ -23,6 +23,31 @@ order by n.ID ASC
 -- if we want to get residents:
 --   and d.prac_type in (15, 97)
 
+-- sanity check DMU-COM grads in Oakland County, MI:
+--   vis says: 131
+SELECT count(distinct n.id)
+FROM (((dbo_Name n INNER JOIN dbo_Biographical b
+  ON n.ID = b.ID)  INNER JOIN dbo_Education e
+  ON n.ID = e.ID)  INNER JOIN dbo_Demographics d
+  on n.ID = d.ID)  INNER JOIN dbo_Name_Address na
+  ON n.mail_address_num = na.address_num
+where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
+  and n.status = 'A'
+  and n.member_type in ('DO-M')
+  and ( na.bad_address is Null or na.bad_address = '' )
+  and n.designation <> ''
+  and na.city <> ''
+  and na.state_province = 'MI'
+  and na.zip <> ''
+  and na.county = 'Oakland'
+  and e.college_code = '118445'
+  and d.prof_empl not like '9*'
+  and d.prac_type = '40'
+
+select distinct(college_name)
+from dbo_education
+where college_name like '%DMU%'
+
 
 -- get school counties
 select distinct(n.id), e.college_name, na.city, na.state_province, na.county, na.purpose
