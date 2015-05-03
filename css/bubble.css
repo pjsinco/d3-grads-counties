@@ -13,7 +13,7 @@ body {
 
 .states {
   fill: #ddd;
-  cursor: pointer;
+  cursor: move;
 }
 
 .state {
@@ -44,11 +44,18 @@ body {
   fill: #000066;
   fill-opacity: .5;
   stroke: #fff;
-  stroke-width: .5px;
+  /*stroke-width: .5px;*/
+  cursor: pointer;
+  
+  transition-property: fill;
+  transition-duration: .25s;
+  transition-timing-function: ease;
 }
 
 .bubble:hover {
-  stroke: #000;
+  /*stroke: #000;*/
+  fill: orange;
+  fill-opacity: .75;
 }
 
 /*.legend circle {*/

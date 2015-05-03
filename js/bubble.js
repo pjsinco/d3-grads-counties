@@ -23,6 +23,7 @@ var focus = {
 
 var visWidth = 655, visHeight = 537;
 var active = d3.select(null);
+var windowScale = 1;
 
 var contextWidth = visWidth - context.margin.left - context.margin.right,
   contextHeight = visHeight - context.margin.top - context.margin.bottom,
@@ -47,7 +48,6 @@ var zoom = d3.behavior.zoom()
   .scaleExtent([1, 8])
   .on('zoom', zoom)
   
-
 var tip = d3.tip()
   .attr('class', 'd3-tip')
   .direction('e')
@@ -165,6 +165,7 @@ d3.json("data/us-schools.json", function(error, us) {
           return 'translate(' + path.centroid(d) + ')';
         })
         .attr('r', 0)
+        .style('stroke-width', '0.5px')
 
       bubbles
         .transition()
@@ -177,6 +178,7 @@ d3.json("data/us-schools.json", function(error, us) {
           //console.log(d.properties.county, count);
           return radius(count);
         })
+        .style('stroke-width', 0.5 / zoom.scale() + 'px')
         
 
     } // end drawAllBubbles
@@ -222,6 +224,7 @@ d3.json("data/us-schools.json", function(error, us) {
           return 'translate(' + path.centroid(d) + ')';
         })
         .attr('r', 0)
+        .style('stroke-width', 0.5 / zoom.scale() + 'px')
 
       bubbles
         .transition()
@@ -485,10 +488,13 @@ function zoom() {
   tip.hide();
 
   if (d3.event.scale > 1) {
-    document.querySelector('.legend').style.opacity = 0;
+    document.querySelector('.legend').style.display = 'none';
   } else {
-    document.querySelector('.legend').style.opacity = 1;
+    document.querySelector('.legend').style.display = 'block';
   }
+
+  d3.selectAll('.bubble')
+    .style('stroke-width', 0.5 / d3.event.scale + 'px')
 
   context
     .style('stroke-width', 1.5 / d3.event.scale + 'px')
