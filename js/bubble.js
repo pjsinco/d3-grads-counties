@@ -481,6 +481,7 @@ function clicked(d) {
  * Hide legend when zooming
  */
 function zoom() {
+  tip.hide();
   context
     .style('stroke-width', 1.5 / d3.event.scale + 'px')
   context

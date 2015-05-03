@@ -11,8 +11,9 @@ body {
   height: 100%;
 }
 
-#states {
+.states {
   fill: #ddd;
+  cursor: pointer;
 }
 
 .state {
