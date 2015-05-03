@@ -90,7 +90,6 @@ var quantize = d3.scale.quantize()
   .range(d3.range(9).map(function(i) { return 'q' + i + '-9'; }))
 
 d3.json("data/us-schools.json", function(error, us) {
-
     // add a count of all members to each county
     //us.objects.counties.geometries.forEach(function(d, i) {
     //  var count = 0;
@@ -356,6 +355,12 @@ d3.json("data/us-schools.json", function(error, us) {
 
     //drawSchools();
     function drawBullseye(school) {
+      
+      var name = csv.filter(function(d) {
+          return d.abbrev == school
+        })[0].name
+      document.querySelector('#school-info').innerText = name;
+
       var target = bullseye 
         .selectAll('.bullseye')
         .data(csv.filter(function (d) {
@@ -393,7 +398,6 @@ d3.json("data/us-schools.json", function(error, us) {
         .attr('r', 0)
         .remove()
     } // end drawBulleye
-
   }); // d3.csv
 }); // d3.json
 
@@ -431,7 +435,6 @@ function responsivefy(svg) {
       .attr('height', Math.round(targetWidth / aspect));
   }
 } // responsivefy
-
 
 /**
  * Generate an array of all the schools
@@ -479,10 +482,6 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
-/**
- * TODO
- * Hide legend when zooming
- */
 function zoom() {
   // hide some things
   tip.hide();

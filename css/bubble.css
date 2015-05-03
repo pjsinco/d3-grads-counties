@@ -58,17 +58,6 @@ body {
   fill-opacity: .75;
 }
 
-/*.legend circle {*/
-  /*fill: none;*/
-  /*stroke: #ccc;*/
-/*}*/
-
-/*.legend text {*/
-  /*fill: #777;*/
-  /*font: 10px sans-serif;*/
-  /*text-anchor: middle;*/
-/*}*/
-
 .q0-9 { fill:rgb(247,251,255); }
 .q1-9 { fill:rgb(222,235,247); }
 .q2-9 { fill:rgb(198,219,239); }
@@ -96,6 +85,18 @@ body {
   fill: #777;
   font: 10px sans-serif;
   text-anchor: middle;
+}
+
+.vis-info {
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 1.5em;
+}
+
+#school-info {
+  float: right;
+  max-width: 65%;
+  text-align: right;
+  height: 2em;
 }
 
 .d3-tip{
