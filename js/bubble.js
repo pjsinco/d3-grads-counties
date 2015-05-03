@@ -5,7 +5,7 @@
 
 var context = { 
   margin: {
-    top: 100,
+    top: 0,
     bottom: 20,
     left: 0,
     right: 10
@@ -14,14 +14,14 @@ var context = {
 
 var focus = {
   margin: {
-    top: 20,
+    top: 500,
     bottom: 20,
     left: 0,
     right: 20
   }
 };
 
-var visWidth = 655, visHeight = 537;
+var visWidth = 655, visHeight = 437;
 var active = d3.select(null);
 var windowScale = 1;
 
