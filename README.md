@@ -49,3 +49,14 @@
 * this version was still responsive:
   0f3f9e752b06e706aa699523208126fc1e00992d
 * CSS Tricks: [Collision detection](https://css-tricks.com/collision-detection/)
+
+###Sun May  3 06:42:36 2015 CDT
+* bl.ocks.org: [Zoom to Bounding Box II](http://bl.ocks.org/mbostock/9656675)
+    * A variant of the Zoom to Bounding Box example that uses zoom transitions to smoothly interpolate between different views. This example also allows you to freely pan and zoom with the mouse (or touch).
+
+* Bostock: [Zoomable Geography](http://bl.ocks.org/mbostock/2374239)
+
+* Bostock: [Programmatic Pan+Zoom III](Programmatic Pan+Zoom III)
+    * With 'Zoom in', 'Zoom out' buttons
+
+

@@ -1,3 +1,8 @@
+/**
+ * TODO
+ * There are no DOs are practicing in Louisiana?
+ */
+
 var context = { 
   margin: {
     top: 100,
@@ -17,6 +22,7 @@ var focus = {
 };
 
 var visWidth = 655, visHeight = 537;
+var active = d3.select(null);
 
 var contextWidth = visWidth - context.margin.left - context.margin.right,
   contextHeight = visHeight - context.margin.top - context.margin.bottom,
@@ -34,6 +40,14 @@ var xScale = d3.time.scale()
   .nice(d3.time.year, 1950)
   .range([30, visWidth])
 
+var zoom = d3.behavior.zoom()
+  .translate([0, 0])
+  //.scale([1])
+  .scale(1)
+  .scaleExtent([1, 8])
+  .on('zoom', zoom)
+  
+
 var tip = d3.tip()
   .attr('class', 'd3-tip')
   .direction('e')
@@ -43,6 +57,8 @@ var svg = d3.select('.vis').append('svg')
   .attr('height', visHeight)
   .call(responsivefy)
   .call(tip)
+  .call(zoom)
+  //.call(zoom.evt)
   
 var context = svg.append('g')
   .classed('context', true)
@@ -99,8 +115,7 @@ d3.json("data/us-schools.json", function(error, us) {
       .attr('d', path)
       .style('stroke', '#fff')
       .attr('class', 'state')
-      //.style('fill', '#ddd')
-      .on('click', clicked)
+      //.on('click', clicked)
     
 
     drawAllBubbles();
@@ -461,3 +476,15 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
+/**
+ * TODO
+ * Hide legend when zooming
+ */
+function zoom() {
+  context
+    .style('stroke-width', 1.5 / d3.event.scale + 'px')
+  context
+    .attr('transform', 'translate(' + d3.event.translate + ')scale(' + 
+      d3.event.scale + ')')
+  
+}
