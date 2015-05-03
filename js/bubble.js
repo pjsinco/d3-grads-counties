@@ -481,11 +481,20 @@ function clicked(d) {
  * Hide legend when zooming
  */
 function zoom() {
+  // hide some things
   tip.hide();
+
+  if (d3.event.scale > 1) {
+    document.querySelector('.legend').style.opacity = 0;
+  } else {
+    document.querySelector('.legend').style.opacity = 1;
+  }
+
   context
     .style('stroke-width', 1.5 / d3.event.scale + 'px')
   context
     .attr('transform', 'translate(' + d3.event.translate + ')scale(' + 
       d3.event.scale + ')')
-  
 }
+
+
