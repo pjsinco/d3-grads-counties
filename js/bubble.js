@@ -250,6 +250,14 @@ d3.json("data/us-schools.json", function(error, us) {
       bubbles
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
+        .on('touchstart', function(d) {
+          var width = document.documentElement.clientWidth;
+          var touchedX = d3.event.targetTouches[0].clientX;
+          console.log(width, touchedX / width);
+          //console.log(document.documentElement.clientWidth);
+          //console.log(document.documentElement.clientWidth);
+          //console.log(d3.event.targetTouches[0].clientX, d3.event.targetTouches[0].clientY);
+        })
         //.on('click', clicked)
 
       bubbles
