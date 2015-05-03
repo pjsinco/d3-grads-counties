@@ -248,7 +248,7 @@ d3.json("data/us-schools.json", function(error, us) {
       bubbles
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
-        .on('click', clicked)
+        //.on('click', clicked)
 
       bubbles
         .exit()
