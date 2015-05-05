@@ -9,6 +9,7 @@ data/old/*
 data/ACS_13_5YR_B01003/*
 data/*.csv
 data/*.json
+data/*.pyc
 data/*.txt
 js/d3.min.js
 js/topojson.v1.min.js
