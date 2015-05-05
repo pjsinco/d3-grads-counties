@@ -4,8 +4,8 @@ import json
 csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-eunice.csv', 'r')
 #csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-abbrd.csv', 'r')
 
-#json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-json-zoom.json', 'r')
-json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-schools.json', 'r')
+json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-schools-zoom.json', 'r')
+#json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-schools.json', 'r')
 #json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-abbrd.json', 'r')
 fips_file = open('/Users/psinco/Sites/d3-grads-counties/data/national_county.txt', 'r')
 
@@ -109,13 +109,13 @@ def format_json(counties):
 def main():
     counties = parsed_json['objects']['counties']['geometries']
     #format_json(counties)
-    
+   
     csv_in.seek(0) # rewind to the beginning of the file
     for row in csv_reader:
         #import pdb; pdb.set_trace()
         print'\tProcessing id #{}'.format(row[0])
         school = get_school_from_id(row[9])
-        fips_county = row[11] + row[12]
+        fips_county = str(row[11]).zfill(2) + str(row[12]).zfill(3)
     
         
         for i in range(len(counties)):
@@ -127,6 +127,9 @@ def main():
                     print('\t\tDone')
                     break
                 else:
+                    #import pdb; pdb.set_trace()
+                    #if school == 'MSUCOM' and county_id == '26125':
+                        #print('\t\t\tAdding to msuoak: {}'.format(row[0]))
                     schools[school] += 1
                     print('\t\tDone')
                     break
