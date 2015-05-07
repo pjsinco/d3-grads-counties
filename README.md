@@ -60,3 +60,7 @@
     * With 'Zoom in', 'Zoom out' buttons
 
 
+###Thu May  7 17:06:05 2015 CDT
+* D3.js Resources to Level Up [https://engineering.eventbrite.com/d3-js-resources-to-level-up/](https://engineering.eventbrite.com/d3-js-resources-to-level-up/)
+    * Looks like a good collection
+
