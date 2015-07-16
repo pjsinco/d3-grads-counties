@@ -64,3 +64,5 @@
 * D3.js Resources to Level Up [https://engineering.eventbrite.com/d3-js-resources-to-level-up/](https://engineering.eventbrite.com/d3-js-resources-to-level-up/)
     * Looks like a good collection
 
+###Thu Jul 16 18:55:51 2015 CDT
+* [D3.js Design Patterns](https://github.com/billautomata/d3js_design_patterns)
