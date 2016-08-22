@@ -39,4 +39,5 @@
     ```
 
 
-  
+###Band-aided name change of KCUMB-COM to KCU-COM
+The new name is reflected only in the dropdown to select the Kansas City school.
