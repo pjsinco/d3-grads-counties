@@ -1,7 +1,8 @@
 import csv
 import json
 
-csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-eunice.csv', 'r')
+#csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-eunice.csv', 'r')
+csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-2016.csv', 'r')
 #csv_in = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-abbrd.csv', 'r')
 
 json_in = open('/Users/psinco/Sites/d3-grads-counties/data/us-schools-zoom.json', 'r')
@@ -135,7 +136,7 @@ def main():
                     break
     
     
-    with open('/Users/psinco/Sites/d3-grads-counties/data/us-schools-eunice.json', 'w') as json_out:
+    with open('/Users/psinco/Sites/d3-grads-counties/data/us-schools-2016.json', 'w') as json_out:
         json.dump(parsed_json, json_out, indent=4)
     
     json_in.close()

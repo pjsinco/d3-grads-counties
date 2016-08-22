@@ -8,7 +8,7 @@ from populations import get_school_from_id
 def main():
     schools = {}
 
-    with open('/Users/psinco/Sites/d3-grads-counties/data/members-out.csv', 'r') as csv_in:
+    with open('/Users/psinco/Sites/d3-grads-counties/data/members-out-2016.csv', 'r') as csv_in:
         csv_reader = csv.reader(csv_in)
         for row in csv_reader:
             school = get_school_from_id(row[9])
@@ -23,7 +23,7 @@ def main():
             else:
                 schools[school][grad_year] += 1
     
-    with open('/Users/psinco/Sites/d3-grads-counties/data/grad-years.json', 'w') as json_out:
+    with open('/Users/psinco/Sites/d3-grads-counties/data/grad-years-2016.json', 'w') as json_out:
         json.dump(schools, json_out, indent=4)
 
 if __name__ == '__main__':

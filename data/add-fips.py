@@ -2,9 +2,9 @@ import csv
 
 
 #in_file = open('/Users/psinco/Sites/d3-grads-counties/data/d3-grads-counties.csv', 'r')
-in_file = open('/Users/psinco/Sites/d3-grads-counties/data/TheDOMemberData.csv', 'r')
+in_file = open('/Users/psinco/Sites/d3-grads-counties/data/members-2016.csv', 'r')
 fips_file = open('/Users/psinco/Sites/d3-grads-counties/data/national_county.txt', 'r')
-out_file = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-eunice.csv', 'w')
+out_file = open('/Users/psinco/Sites/d3-grads-counties/data/members-out-2016.csv', 'w')
 
 csv_reader = csv.reader(in_file)
 fips_reader = csv.reader(fips_file)

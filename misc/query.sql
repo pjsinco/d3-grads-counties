@@ -1,3 +1,25 @@
+-- incorporates suggestions from Eunice, 2016-08-22:
+  -- include more prof_empl categories: 93, 94, 97
+  -- include more prac_type categories: 70, 64, 19
+  -- include 'ACERT' in status
+SELECT n.id, n.designation, n.member_type, na.address_1, na.city, na.state_province as state, na.zip, na.county, FORMAT(e.grad_date, 'yyyy') as grad_year, e.college_code as school, DateDiff("yyyy", b.DOB, Now())+ Int( Format(now(), "mmdd") < Format( b.DOB, "mmdd") ) as age
+FROM (((dbo_Name n INNER JOIN dbo_Biographical b
+  ON n.ID = b.ID)  INNER JOIN dbo_Education e
+  ON n.ID = e.ID)  INNER JOIN dbo_Demographics d
+  on n.ID = d.ID)  INNER JOIN dbo_Name_Address na
+  ON n.mail_address_num = na.address_num
+where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
+  and n.status in ('A', 'ACERT')
+  and n.member_type in ('DO-M')
+  and ( na.bad_address is Null or na.bad_address = '' )
+  and n.designation <> ''
+  and na.city <> ''
+  and na.state_province <> ''
+  and na.zip <> ''
+  and d.prof_empl not in ('90', '91', '92', '95', '96') 
+  and d.prac_type in ('40', '70', '64', '19')
+order by n.ID ASC
+
 -- incorporates suggestions from Jessica, 2014-04-23,
 --   except we don't include na.purpose = 'Business'
 -- 25,294 results
@@ -9,15 +31,15 @@ FROM (((dbo_Name n INNER JOIN dbo_Biographical b
   on n.ID = d.ID)  INNER JOIN dbo_Name_Address na
   ON n.mail_address_num = na.address_num
 where n.status not in ('I', 'ID', 'IX', 'INDO', 'IMDDO', 'IRES', 'INC', 'D')
-  and n.status = 'A'
+  and n.status in ('A', 'ACERT')
   and n.member_type in ('DO-M')
   and ( na.bad_address is Null or na.bad_address = '' )
   and n.designation <> ''
   and na.city <> ''
   and na.state_province <> ''
   and na.zip <> ''
-  and d.prof_empl not like '9*'
-  and d.prac_type = '40'
+  and d.prof_empl not like '9*' --include 93, 94, 96, 97
+  and d.prac_type = '40' --70 (med research), -- 64 (education-related), 19 (missionary)
 order by n.ID ASC
 
 -- if we want to get residents:
